@@ -1,7 +1,6 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 const request = require('request');
-var http = require('http');
 
 class Parser {
     constructor(urlFrom, urlTo,) {
@@ -9,7 +8,7 @@ class Parser {
         this.urlTo = urlTo;
     }
 
-    async getHtmlRequest(urlFrom, options) {
+    getHtmlRequest(urlFrom, options) {
         return fetch(urlFrom, options).then(res => res.json());
     }
 
@@ -19,14 +18,17 @@ class Parser {
                 let file = fs.createWriteStream(`./convert/${filename}`);
                 console.log(response.statusCode);
                 console.log(response.headers['content-type']);
+                console.log(url, filename);
                 response.pipe(file);
                 file.on('finish', () => file.close())
             })
             .on('error', (err) => {
-                console.error(`Ошибка запроса, url: ${url}. ${err}`);
+                console.error(`Ошибка запроса, url: ${url}, fileName: ${filename}. ${err}`);
                 fs.unlinkSync(`./convert/${filename}`);
             })
     }
+
+    /*Результат кода выше и кода в коментариях аналогичны!*/
         /*request(url)
             .pipe(fs.createWriteStream(`./convert/${filename}`))
             //.on('error', err => console.log(`file didn't save: ${err};\n`));

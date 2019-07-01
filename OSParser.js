@@ -1,6 +1,4 @@
-//const fetch = require('node-fetch');
 const fs = require('fs');
-//const request = require('request');
 
 const Parser = require('./ParserBase');
 
@@ -9,7 +7,7 @@ class OSParser extends Parser {
         super(urlFrom, urlTo);
         this.requestOption = {
             method: 'post',
-            body:    JSON.stringify({
+            body:JSON.stringify({
                 Culture:"en-GB",
                 Relevance:"relevance",
                 ProductsOnPage:3463,
@@ -25,14 +23,14 @@ class OSParser extends Parser {
             .then(data => this.handleData(data));
     }
 
-    async handleData(data) {
+    handleData(data) {
         const newData = OSParser.getDatafromReq(data);
         const dataToCheck = this.getImageCompleteData(OSParser.getImageNameArr('./image_from_OS_rus'));
         const completeData = this.generateData(newData, dataToCheck);
         completeData.forEach(item => {
             this.downloadFiles(item.img, `${item.id}_1.jpg`.toLowerCase());
         });
-        //await this.writeData(JSON.stringify(res, null, 4), this.urlTo);
+        //this.writeData(JSON.stringify(res, null, 4), this.urlTo);
     }
 
     static getImageNameArr(urlFrom) {
