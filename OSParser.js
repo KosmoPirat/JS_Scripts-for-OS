@@ -66,9 +66,6 @@ class OSParser extends Parser {
         });
         return data;
     }
-
-
-
 }
 
 const os = new OSParser('https://www.originalstyle.com/umbraco/api/CatalogueSearch/Full', './src/dataResult.json');
