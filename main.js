@@ -6,7 +6,7 @@ const host = 'https://www.originalstyle.com';
 const requestBody = {
     Culture: 'en-GB',
     Relevance: 'relevance',
-    ProductsOnPage: 5000,
+    ProductsOnPage: 2,
     Page: 1,
     TotalPages: null,
     Keywords: '',
@@ -44,9 +44,10 @@ const requestPictureWithinRetries = (ImageSrc, SKU, reqId) => {
     requestPicture(ImageSrc, SKU)
         .then((SKU, body) => {
             console.log(`SUCCESS -- id: ${reqId}\n code: ${SKU}`);
+            console.log(`request body after resolve:${body}`);
             eventEmitter.emit('item processed');
-            console.log(`body request: ${SKU}, ${body}`);
-            downloadData(body, SKU);
+
+            //downloadData(body, SKU);
             // Сохранить в папку
         })
         .catch(res => {
@@ -66,6 +67,8 @@ const requestPicture = (url, SKU) => {
             if (error || response.statusCode !== 200) {
                 reject({SKU, error});
             }
+            if (body) console.log(`request body before resolve: true`);
+            else console.log(`request body before resolve: false`);
             resolve(SKU, body);
         });
     })
